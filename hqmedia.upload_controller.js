@@ -48,7 +48,13 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
     self.maxPollInterval = 20000;  // 20 seconds
     self.currentPollAttempts = 0;
     self.maxPollAttempts = 20;
+    self.allowClose = true;
 
+    $(self.container).on('hide.bs.modal', function (event) {
+        if (!self.allowClose) {
+            event.preventDefault();
+        }
+    });
 
     self.getActiveUploadSelectors = function (file) {
         /*
@@ -105,6 +111,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
             $(activeSelector.cancel).addClass('hide');
             $(activeSelector.remove).removeClass('hide');
             event.preventDefault();
+            self.allowClose = true;
         }
     };
 
@@ -226,6 +233,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
          */
         self.filesInQueueUI = [];
         self.processingIdToFile = {};
+        self.allowClose = true;
         self.toggleUploadButton();
         self.resetUploadForm();
         if (!self.isMultiFileUpload) {
@@ -270,6 +278,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
         /*
             Begin Upload was clicked.
          */
+        self.allowClose = false;
         $(self.uploadButtonSelector).addClass('disabled').removeClass('btn-success');
         self.startUploadUI();
         var postParams = _.clone(self.uploadParams);
@@ -310,6 +319,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
         /*
             An error occurred while uploading the file.
          */
+        self.allowClose = true;
         var curUpload = self.getActiveUploadSelectors(event.file);
         $(curUpload.progressBarContainer).addClass('progress-danger');
         self.showErrors(event.file, ['Upload Failed: Issue communicating with server.  This usually means your Internet connection is not strong enough. Try again later.']);
@@ -531,6 +541,7 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
     };
 
     self.uploadComplete = function (event) {
+        self.allowClose = true;
         var curUpload = self.getActiveUploadSelectors(event.file);
         $(curUpload.cancel).addClass('hide');
         $(curUpload.progressBarContainer).removeClass('active').addClass('progress-success');
