@@ -32,6 +32,9 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
 
     self.notSupportedNotice = self.container + " .hqm-not-supported";
 
+    // behavior controls
+    self.allowCloseDuringUpload = options.allowCloseDuringUpload || false;
+
     // Templates
     self.queueTemplate = options.queueTemplate;
     self.errorsTemplate = options.errorsTemplate;
@@ -278,7 +281,11 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
         /*
             Begin Upload was clicked.
          */
-        self.allowClose = false;
+
+        // if this has been configured to disallow closing, then disable it
+        if (!self.allowCloseDuringUpload) {
+            self.allowClose = false;
+        }
         $(self.uploadButtonSelector).addClass('disabled').removeClass('btn-success');
         self.startUploadUI();
         var postParams = _.clone(self.uploadParams);
