@@ -535,7 +535,7 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
         var $existingFile = $(self.existingFileSelector);
         $(self.fileUploadCompleteSelector).addClass('hide');
 
-        if (self.currentReference.isMediaMatched()) {
+        if (self.currentReference && self.currentReference.isMediaMatched()) {
             $existingFile.removeClass('hide');
             $existingFile.find('.controls').html(self.processExistingFileTemplate(self.currentReference.getUrl()));
         } else {
@@ -554,6 +554,16 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
         $(curUpload.progressBarContainer).removeClass('active').addClass('progress-success');
 
         var response = $.parseJSON(event.data);
+        // only should have effect in the multimedia uploader
+        self.currentReference = response.ref;
+        var url = self.currentReference.url;
+        self.currentReference.getUrl = function() {
+            return url;
+        };
+        self.currentReference.isMediaMatched = function() {
+            return true;
+        };
+
         $('[data-hqmediapath="' + self.currentReference.path + '"]').trigger('mediaUploadComplete', response);
         if (!response.errors.length) {
             self.updateUploadFormUI();
