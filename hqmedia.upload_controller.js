@@ -554,16 +554,22 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
         $(curUpload.progressBarContainer).removeClass('active').addClass('progress-success');
 
         var response = $.parseJSON(event.data);
-        // only should have effect in the multimedia uploader
-        self.currentReference = response.ref;
-        var url = self.currentReference.url;
-        self.currentReference.getUrl = function() {
-            return url;
-        };
-        self.currentReference.isMediaMatched = function() {
-            return true;
-        };
+        // HACK for logo uploader, since mediaUploadComplete is not available outside of Vellum
+        if(self.currentReference && self.currentReference.hasOwnProperty('setObjReference')) {
+            self.currentReference.setObjReference(response.ref);
+        } else {
+            // HACK for first time a logo is uploaded
+            self.currentReference = response.ref;
+            var url = self.currentReference.url;
+            self.currentReference.getUrl = function() {
+                return url;
+            };
+            self.currentReference.isMediaMatched = function() {
+                return true;
+            };
+        }
 
+        // WARNING: mediaUploadComplete is only defined in Vellum
         $('[data-hqmediapath="' + self.currentReference.path + '"]').trigger('mediaUploadComplete', response);
         if (!response.errors.length) {
             self.updateUploadFormUI();
