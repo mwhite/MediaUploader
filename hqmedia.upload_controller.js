@@ -185,10 +185,14 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
             We tried non Flash at some point and gave up after a myriad of issues.
          */
         YUI().use('uploader', function (Y) {
+            console.log(Y);
             var selectFilesButton = self.selectFilesButton;
+            console.log(selectFilesButton);
             var one = Y.one(selectFilesButton);
+            console.log(one);
 
             var buttonRegion = one.get('region');
+            console.log(buttonRegion);
             var flashVersionInfo = swfobject.getFlashPlayerVersion();
             
             if (flashVersionInfo && flashVersionInfo.major > 5) {
