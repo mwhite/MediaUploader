@@ -293,9 +293,6 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
         $(self.uploadButtonSelector).addClass('disabled').removeClass('btn-success');
         self.startUploadUI();
         var postParams = _.clone(self.uploadParams);
-        if ($(self.uploadFormSelector).find('[name="shared"]').prop('checked')) {
-            $.extend(postParams, self.getLicensingParams());
-        }
         for (var key in self.uploadParams) {
             if (self.uploadParams.hasOwnProperty(key)
                 && $(self.uploadFormSelector).find('[name="'+key+'"]').prop('checked')) {
