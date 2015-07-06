@@ -288,7 +288,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
         }
         if (!self.isMultiFileUpload) {
             var newExtension = '.' + self.filesInQueueUI[0].get('name').split('.').pop().toLowerCase();
-            self.uploadParams.path = self.uploadParams.path.replace(/\.[^/.]+$/, newExtension);
+            self.uploadParams.path = self.uploadParams.path.replace(/(\.[^/.]+)?$/, newExtension);
         }
         $(self.uploadButtonSelector).addClass('disabled').removeClass('btn-success');
         self.startUploadUI();
