@@ -554,7 +554,7 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
         $(curUpload.cancel).addClass('hide');
         $(curUpload.progressBarContainer).removeClass('active').addClass('progress-success');
 
-        var response = $.parseJSON(event.data);
+        var response = $.parseJSON(event.data.replace(/\r|\n|\r\n/, '\\n'));
         $('[data-hqmediapath="' + self.currentReference.path + '"]').trigger('mediaUploadComplete', response);
         if (!response.errors.length) {
             self.updateUploadFormUI();
