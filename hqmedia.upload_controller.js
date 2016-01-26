@@ -539,10 +539,10 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
 
         if (self.currentReference.isMediaMatched()) {
             $existingFile.removeClass('hide');
-            $existingFile.find('.controls').html(self.processExistingFileTemplate(self.currentReference.getUrl()));
+            $existingFile.find('.hqm-existing-controls').html(self.processExistingFileTemplate(self.currentReference.getUrl()));
         } else {
             $existingFile.addClass('hide');
-            $existingFile.find('.controls').empty();
+            $existingFile.find('.hqm-existing-controls').empty();
         }
         $('.existing-media').tooltip({
             placement: 'bottom'
