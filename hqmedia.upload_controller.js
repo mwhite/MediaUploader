@@ -331,7 +331,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
         self.allowClose = true;
         var curUpload = self.getActiveUploadSelectors(event.file);
         $(curUpload.progressBarContainer).addClass('progress-danger');
-        $(curUpload.progressBarContainer).find('.progress-bar').addClass('progress-bar-danger');
+        $(curUpload.progressBar).addClass('progress-bar-danger');
         self.showErrors(event.file, ['Upload Failed: Issue communicating with server.  This usually means your Internet connection is not strong enough. Try again later.']);
     };
 
@@ -402,7 +402,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
         var curUpload = self.getActiveUploadSelectors(event.file);
         $(curUpload.progressBar).addClass('hide').attr('style', 'width: 0%;'); // reset progress bar for processing
         $(curUpload.progressBarContainer).addClass('progress-warning active');
-        $(curUpload.progressBarContainer).find('.progress-bar').addClass('progress-bar-warning');
+        $(curUpload.progressBar).addClass('progress-bar-warning');
         $(curUpload.processingQueuedNotice).removeClass('hide');
         self.pollProcessingQueue(processing_id)();
     };
@@ -453,7 +453,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
         var curUpload = self.getActiveUploadSelectors(processingFile);
         self.stopProcessingFile(processingFile);
         $(curUpload.progressBarContainer).addClass('progress-success')
-        $(curUpload.progressBarContainer).find('.progress-bar').addClass('progress-bar-success');
+        $(curUpload.progressBar).addClass('progress-bar-success');
 
         self.showMatches(processingFile, data);
         self.showErrors(processingFile, data.errors);
@@ -474,7 +474,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
                 var curUpload = self.getActiveUploadSelectors(processingFile);
                 self.stopProcessingFile(processingFile);
                 $(curUpload.progressBarContainer).addClass('progress-danger');
-                $(curUpload.progressBarContainer).find('.progress-bar').addClass('progress-bar-danger');
+                $(curUpload.progressBar).addClass('progress-bar-danger');
                 self.showErrors(processingFile, ['There was an issue communicating with the server at this time. ' +
                     'The upload has failed.']);
             }
@@ -493,7 +493,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
         $(curUpload.completeNotice).removeClass('hide');
         $(curUpload.progressBar).attr('style', 'width: 100%;');
         $(curUpload.progressBarContainer).removeClass('active progress-warning');
-        $(curUpload.progressBarContainer).find('.progress-bar').removeClass('progress-bar-warning');
+        $(curUpload.progressBar).removeClass('progress-bar-warning');
     };
 
     self.showMatches = function (file, data) {
@@ -559,7 +559,7 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
         var curUpload = self.getActiveUploadSelectors(event.file);
         $(curUpload.cancel).addClass('hide');
         $(curUpload.progressBarContainer).removeClass('active').addClass('progress-success');
-        $(curUpload.progressBarContainer).find('.progress-bar').addClass('progress-bar-success');
+        $(curUpload.progressBar).addClass('progress-bar-success');
 
         var response = $.parseJSON(event.data.replace(/\r|\n|\r\n/, '\\n'));
         $('[data-hqmediapath="' + self.currentReference.path + '"]').trigger('mediaUploadComplete', response);
