@@ -330,6 +330,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
             An error occurred while uploading the file.
          */
         self.allowClose = true;
+        self.uploader.queue = null;
         var curUpload = self.getActiveUploadSelectors(event.file);
         $(curUpload.progressBarContainer).addClass('progress-danger');
         $(curUpload.progressBar).addClass('progress-bar-danger');
