@@ -110,6 +110,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
          */
         return function (event) {
             file.cancelUpload();
+            self.uploader.queue = null; // https://github.com/yui/yui3/issues/1179#issuecomment-24175982
             var activeSelector = self.getActiveUploadSelectors(file);
             $(activeSelector.progressBar).attr('style', 'width: 0%;');
             $(activeSelector.cancel).addClass('hide');
