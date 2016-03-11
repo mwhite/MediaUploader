@@ -12,7 +12,8 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
     self.marker = marker + "_";
 
     ///// YUI Uploader Specific Params
-    self.swfURL = options.swfURL;
+    // Strip hostname from URL in case it's included from CDN: http://stackoverflow.com/a/6945443/835696
+    self.swfURL = options.swfURL.replace(/^.*\/\/[^\/]+/, '');
     self.fileFilters = options.fileFilters;
     self.isMultiFileUpload = options.isMultiFileUpload;
 
