@@ -179,8 +179,8 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
     // Uploader flow
     self.init = function () {
         /*
-            Initialize the uploader.
-            Here we use YUI for the uploader.
+            Initialize the YUI uploader.
+            Use HTML5 version; flash version caused problems.
          */
         YUI().use('uploader', function (Y) {
             var buttonRegion = Y.one(self.selectFilesButton).get('region');
