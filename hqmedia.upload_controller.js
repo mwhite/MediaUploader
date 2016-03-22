@@ -12,12 +12,8 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
     self.marker = marker + "_";
 
     ///// YUI Uploader Specific Params
-    // Strip hostname from URL in case it's included from CDN: http://stackoverflow.com/a/6945443/835696
-    self.swfURL = options.swfURL.replace(/^.*\/\/[^\/]+/, '');
     self.fileFilters = options.fileFilters;
     self.isMultiFileUpload = options.isMultiFileUpload;
-
-    self.isFlashSupported = options.isFlashSupported;
 
     // Essential Selectors
     self.selectFilesButtonContainer = self.container + " .hqm-select-files-container";
@@ -182,19 +178,11 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
     // Uploader flow
     self.init = function () {
         /*
-            Initialize the uploader.
-
-            Here we use YUI for the uploader. Flash is required.
-            We tried non Flash at some point and gave up after a myriad of issues.
+            Initialize the YUI uploader.
+            Use HTML5 version; flash version caused problems.
          */
         YUI().use('uploader', function (Y) {
             var buttonRegion = Y.one(self.selectFilesButton).get('region');
-            var flashVersionInfo = swfobject.getFlashPlayerVersion();
-            
-            if (flashVersionInfo && flashVersionInfo.major > 5) {
-                Y.Uploader = Y.UploaderFlash;
-            }
-
             if (Y.Uploader.TYPE == "none") {
                 $(self.notSupportedNotice).removeClass('hide');
                 $(self.selectFilesButtonContainer).parent().addClass('hide');
@@ -209,11 +197,6 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
                 selectFilesButton: Y.one(self.selectFilesButton),
                 multipleFiles: self.isMultiFileUpload
             });
-
-            if (Y.Uploader.TYPE == "flash") {
-                self.uploader.set("fileFilters", self.fileFilters);
-                self.uploader.set("swfURL", self.swfURL);
-            }
 
             self.uploader.on("fileselect", self.fileSelect);
             self.uploader.on("uploadprogress", self.uploadProgress);
