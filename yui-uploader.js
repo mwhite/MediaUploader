@@ -7419,6 +7419,7 @@ YUI.add('file-html5', function (Y, NAME) {
             xhr.addEventListener ("loadend", boundEventHandler, false);
             xhr.addEventListener ("readystatechange", boundEventHandler, false);
 
+            console.log("jenny");
             xhr.open("POST", url, true);
 
             xhr.withCredentials = this.get("xhrWithCredentials");
