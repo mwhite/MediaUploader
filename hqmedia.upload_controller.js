@@ -179,7 +179,8 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
     self.init = function () {
         /*
             Initialize the YUI uploader.
-            Use HTML5 version; flash version caused problems.
+            Use HTML5 version; flash version wasn't properly triggering fileselect events,
+            which are needed for app manager's bulk multimedia uploader.
          */
         YUI().use('uploader', function (Y) {
             var buttonRegion = Y.one(self.selectFilesButton).get('region');
