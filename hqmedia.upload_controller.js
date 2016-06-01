@@ -65,8 +65,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
         return {
             selector: selector,
             progressBarContainer: selector + ' .progress',
-            // select both B2 and B3 versions of progress bar
-            progressBar: selector + ' .progress .bar, ' + selector + ' .progress .progress-bar',
+            progressBar: selector + ' .progress .progress-bar',
             cancel: selector + ' .hqm-cancel',
             remove: selector + ' .hqm-remove',
             beginNotice: selector + ' .hqm-begin',
