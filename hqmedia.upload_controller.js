@@ -84,7 +84,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
             This renders the template for the queued item display.
          */
         var MEGABYTE = 1048576;
-        return _.template(self.queueTemplate, {
+        return _.template(self.queueTemplate)({
             unique_id: self.marker + file.get('id'),
             file_size: (file.get('size')/MEGABYTE).toFixed(3),
             file_name: file.get('name')
@@ -94,7 +94,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
 
 
     self.processErrorsTemplate = function (errors) {
-        return _.template(self.errorsTemplate, {
+        return _.template(self.errorsTemplate)({
             errors: errors
         });
     };
@@ -340,7 +340,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
     self.statusTemplate = options.statusTemplate;
 
     self.processDetailsTemplate = function (images, audio, video, unknowns) {
-        return _.template(self.detailsTemplate, {
+        return _.template(self.detailsTemplate)({
             images: images,
             audio: audio,
             video: video,
@@ -350,7 +350,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
 
     self.processStatusTemplate = function (images, audio, video) {
         var numMatches = images.length + audio.length + video.length;
-        return _.template(self.statusTemplate, {
+        return _.template(self.statusTemplate)({
             num: numMatches
         });
     };
@@ -515,7 +515,7 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
     self.existingFileTemplate = options.existingFileTemplate;
 
     self.processExistingFileTemplate = function (url) {
-        return _.template(self.existingFileTemplate, {
+        return _.template(self.existingFileTemplate)({
             url: url
         });
     };
