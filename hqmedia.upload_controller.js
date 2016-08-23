@@ -381,7 +381,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
         /*
             The upload completed. Do this...
          */
-        var response = $.parseJSON(event.data);
+        var response = JSON.parse(event.data);
 
         var processing_id = response.processing_id;
         self.processingIdToFile[response.processing_id] = event.file;
@@ -547,7 +547,7 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
         $(curUpload.progressBarContainer).removeClass('active').addClass('progress-success');
         $(curUpload.progressBar).addClass('progress-bar-success');
 
-        var response = $.parseJSON(event.data.replace(/\r|\n|\r\n/, '\\n'));
+        var response = JSON.parse(event.data.replace(/\r|\n|\r\n/, '\\n'));
         $('[data-hqmediapath="' + self.currentReference.path + '"]').trigger('mediaUploadComplete', response);
         if (!response.errors.length) {
             self.updateUploadFormUI();
