@@ -156,7 +156,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
 
     self.resetUploadForm = function () {
         var $uploadForm = $(self.uploadFormSelector);
-        $uploadForm.find('.hqm-share-media').removeAttr('checked');
+        $uploadForm.find('.hqm-share-media').prop('checked', false);
         $uploadForm.find('.hqm-sharing').addClass('hide');
         $uploadForm.find('[name="license"]').val('cc');
         $uploadForm.find('[name="author"]').val('');
