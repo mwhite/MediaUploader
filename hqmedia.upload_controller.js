@@ -528,7 +528,7 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
         var $existingFile = $(self.existingFileSelector);
         $(self.fileUploadCompleteSelector).addClass('hide');
 
-        if (self.currentReference.getUrl()) {
+        if (self.currentReference.getUrl() && self.currentReference.isMediaMatched()) {
             $existingFile.removeClass('hide');
             $existingFile.find('.hqm-existing-controls').html(self.processExistingFileTemplate(self.currentReference.getUrl()));
         } else {
