@@ -106,53 +106,7 @@
             <div id="select-file-section" class="row"></div>
             <div id="selected-media-section" class="row col-sm-12"></div>
             <div id="media-data-section" class="row col-sm-8 col-sm-offset-4"></div>
-
-            <!-- select new file -->
-            <div id="js-select-file-section">
-              <script type="text/html">
-                <div class="select-label col-sm-4">
-                  Select new <%= filetype %>
-                </div>
-                <div class="select-btn col-sm-4">
-                  <label for="js-file-upload" id="js-file-upload-label" class="select-file button btn-sm">
-                    Select File
-                  </label>
-                  <input id="js-file-upload" type="file" accept="image/*" capture="camera" style="visibility:hidden;">
-                </div>
-              </script>
-            </div>
-              
-              <!-- create data, progress, ready text container -->
-            <div id="js-media-data-section" class="container">
-              <script type="text/html">
-                <div id="js-file-data" class="file-data row col-sm-12">
-                  <i class="fa fa-check"></i> <%= fileName %> [<%= fileSize %>] MB
-                </div>
-                <div id="js-file-progress" class="row">
-                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="100">actual progress goes here
-                  </div>
-                </div>
-                <div id="js-file-ready-text" class="ready-text row col-sm-12">
-                  Ready to upload. Click <strong>Begin Upload</strong> to start.
-                </div>
-                </script>
-            </div>
-
-            <!-- selection section container -->
-            <div id="js-selected-media-section">
-              <script type="text/html">
-                <div id="js-current-label" class="current-label col-sm-4">
-                  Current <%= filetype %>
-                </div>
-                <div id="js-current-preview" class="current-preview col-sm-4">
-                  <img id="js-output-file" class="output-image"/>
-                </div>
-                <div id="js-current-btn" class="col-sm-4">
-                  <button id="js-full-image" class="btn btn-sm btn-default">View Full Size</button>
-                </div>
-              </script>
-            </div>
-          </div><!-- close modal-body -->
+          </div>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
@@ -165,7 +119,47 @@
     </div><!-- close modal -->
   </div><!-- close container -->
 
-<script src="uploader.js"></script>
+  <!-- select new file -->
+  <script id="js-select-file-section" type="text/html">
+    <div class="select-label col-sm-4">
+      Select new <%= filetype %>
+    </div>
+    <div class="select-btn col-sm-4">
+      <label for="js-file-upload" id="js-file-upload-label" class="select-file button btn-sm">
+        Select File
+      </label>
+      <input id="js-file-upload" type="file" accept="image/*" capture="camera" style="visibility:hidden;">
+    </div>
+  </script>
+  
+  <!-- create data, progress, ready text container -->
+  <script id="js-media-data-section" type="text/html">
+    <div id="js-file-data" class="file-data row col-sm-12">
+      <i class="fa fa-check"></i> <%= fileName %> [<%= fileSize %>] MB
+    </div>
+    <div id="js-file-progress" class="row">
+      <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="100">actual progress goes here
+      </div>
+    </div>
+    <div id="js-file-ready-text" class="ready-text row col-sm-12">
+      Ready to upload. Click <strong>Begin Upload</strong> to start.
+    </div>
+  </script>
+
+  <!-- selection section container -->
+  <script id="js-selected-media-section" type="text/html">
+    <div id="js-current-label" class="current-label col-sm-4">
+      Current <%= filetype %>
+    </div>
+    <div id="js-current-preview" class="current-preview col-sm-4">
+      <img id="js-output-file" class="output-image"/>
+    </div>
+    <div id="js-current-btn" class="col-sm-4">
+      <button id="js-full-image" class="btn btn-sm btn-default">View Full Size</button>
+    </div>
+  </script>
+
+  <script src="uploader.js"></script>
 
 </body>
 </html>
