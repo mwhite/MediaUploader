@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+  <title>Multimedia Uploader</title>
+  <style>
+    .modal-title,
+    .close-modal {
+      font-size: 16px;
+    }
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+    #select-file-section {
+      padding-top: 15px;
+    }
+    .select-label, .current-label {
+      text-align: right;
+      font-size: 12px;
+      font-weight: bold;
+      padding-top: 7px;
+    }
+    .select-btn {
+      padding-left: 10px;
+    }
+    .select-file {
+      display: inline-block;
+      color: #fff;
+      background-color: #2e558c;
+      border: 1px solid #254674;
+      border-radius: 3px;
+      font-weight: normal;
+      cursor: pointer;
+    }
+    #media-data-section {
+      padding-left: 5px;
+    }
+    .file-data,
+    .ready-text {
+      font-size: 12px;
+      border-radius: 3px;
+      margin-top: 3px;
+    }
+    .file-data {
+      display: inline-block;
+      height: 40px;
+      margin-bottom: 3px;
+      background-color: #a3d8a3;
+      border: 1px solid #82c982;
+      color: white;
+      padding-left: 3px;
+    }
+    .progress-bar {
+      width: 359px;
+    }
+    .ready-text {
+      color: #82c982;
+      padding-left: 0;
+    }
+    .current-preview {
+      padding-bottom: 20px;
+    }
+    .output-image {
+      max-width: 150px;
+      max-height: 150px;
+    }
+    .btn-default {
+      color: #181715;
+      background-color: #f2f2f1;
+      border-color: #d6d6d4;
+  }
+    #js-current-btn {
+      line-height: 7;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- launch button for modal -->
+    <p>
+      <button type="button" class="btn btn-primary" id="js-select-file" data-target="#upload-file" data-toggle="modal">Upload File</button>
+    </p>
+
+    <!-- create modal -->
+    <div class="modal fade" id="upload-file" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div id="js-create-header" class="modal-header">
+            <script type="text/html">
+              <h4 class="modal-title">Upload <%= filetype %></h4>
+              <button type="button" class="close close-modal" data-dismiss="modal">&times;</button>
+            </script>
+          </div>
+
+          <div class="modal-body">
+            <div id="select-file-section" class="row"></div>
+            <div id="selected-media-section" class="row col-sm-12"></div>
+            <div id="media-data-section" class="row col-sm-8 col-sm-offset-4"></div>
+
+            <!-- select new file -->
+            <div id="js-select-file-section">
+              <script type="text/html">
+                <div class="select-label col-sm-4">
+                  Select new <%= filetype %>
+                </div>
+                <div class="select-btn col-sm-4">
+                  <label for="js-file-upload" id="js-file-upload-label" class="select-file button btn-sm">
+                    Select File
+                  </label>
+                  <input id="js-file-upload" type="file" accept="image/*" capture="camera" style="visibility:hidden;">
+                </div>
+              </script>
+            </div>
+              
+              <!-- create data, progress, ready text container -->
+            <div id="js-media-data-section" class="container">
+              <script type="text/html">
+                <div id="js-file-data" class="file-data row col-sm-12">
+                  <i class="fa fa-check"></i> <%= fileName %> [<%= fileSize %>] MB
+                </div>
+                <div id="js-file-progress" class="row">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="100">actual progress goes here
+                  </div>
+                </div>
+                <div id="js-file-ready-text" class="ready-text row col-sm-12">
+                  Ready to upload. Click <strong>Begin Upload</strong> to start.
+                </div>
+                </script>
+            </div>
+
+            <!-- selection section container -->
+            <div id="js-selected-media-section">
+              <script type="text/html">
+                <div id="js-current-label" class="current-label col-sm-4">
+                  Current <%= filetype %>
+                </div>
+                <div id="js-current-preview" class="current-preview col-sm-4">
+                  <img id="js-output-file" class="output-image"/>
+                </div>
+                <div id="js-current-btn" class="col-sm-4">
+                  <button id="js-full-image" class="btn btn-sm btn-default">View Full Size</button>
+                </div>
+              </script>
+            </div>
+          </div><!-- close modal-body -->
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+            <!-- <i class="fa fa-cloud-upload"></i> -->
+            <input id="submit-file" class="btn btn-sm btn-default" type="submit" value="Begin Upload"> 
+          </div>
+
+        </div><!-- close modal-content -->
+      </div><!-- close modal-dialog -->
+    </div><!-- close modal -->
+  </div><!-- close container -->
+
+<script src="uploader.js"></script>
+
+</body>
+</html>
