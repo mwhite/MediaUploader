@@ -56,7 +56,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
         }
     });
 
-    self.getActiveUploadSelectors = function (file) {
+    self._getActiveUploadSelectors = function (file) {
         /*
          All the different active parts of the queued item template that the upload controller cares about.
          file is an instance of Y.file
@@ -79,7 +79,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
     };
 
     // templates
-    self.processQueueTemplate = function (file) {
+    self._processQueueTemplate = function (file) {
         /*
             This renders the template for the queued item display.
          */
@@ -93,21 +93,21 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
 
 
 
-    self.processErrorsTemplate = function (errors) {
+    self._processErrorsTemplate = function (errors) {
         return _.template(self.errorsTemplate)({
             errors: errors
         });
     };
 
     // actions
-    self.cancelFileUpload = function (file) {
+    self._cancelFileUpload = function (file) {
         /*
             What happens when you cancel a file from uploading.
          */
         return function (event) {
             file.cancelUpload();
             self.uploader.queue = null; // https://github.com/yui/yui3/issues/1179#issuecomment-24175982
-            var activeSelector = self.getActiveUploadSelectors(file);
+            var activeSelector = self._getActiveUploadSelectors(file);
             $(activeSelector.progressBar).attr('style', 'width: 0%;');
             $(activeSelector.cancel).addClass('hide');
             $(activeSelector.remove).removeClass('hide');
@@ -116,45 +116,45 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
         }
     };
 
-    self.removeFileFromQueue = function (file) {
+    self._removeFileFromQueue = function (file) {
         /*
             What happens when you remove a file from the queue
         */
         return function (event) {
-            self.removeFileFromUploader(file);
-            self.removeFileFromUI(file);
+            self._removeFileFromUploader(file);
+            self._removeFileFromUI(file);
             event.preventDefault();
         }
     };
 
 
     // UI related
-    self.startUploadUI = function () {
+    self._startUploadUI = function () {
         // optional: set the state of the uploader UI here when the upload starts
     };
 
-    self.removeFileFromUI = function (file) {
-        var activeSelectors = self.getActiveUploadSelectors(file);
+    self._removeFileFromUI = function (file) {
+        var activeSelectors = self._getActiveUploadSelectors(file);
         $(activeSelectors.selector).remove();
-        self.toggleUploadButton();
+        self._toggleUploadButton();
     };
 
-    self.toggleUploadButton = function () {
+    self._toggleUploadButton = function () {
         var $uploadButton = $(self.uploadButtonSelector);
         (self.filesInQueueUI.length > 0) ? $uploadButton.addClass('btn-success').removeClass('disabled') : $uploadButton.addClass('disabled').removeClass('btn-success');
     };
 
-    self.activateQueueUI = function () {
+    self._activateQueueUI = function () {
         for (var i=0; i < self.filesInQueueUI.length; i++) {
             var queuedFile = self.filesInQueueUI[i];
-            var currentSelector = self.getActiveUploadSelectors(queuedFile);
+            var currentSelector = self._getActiveUploadSelectors(queuedFile);
             $(currentSelector.beginNotice).addClass('hide');
             $(currentSelector.remove).addClass('hide');
             $(currentSelector.cancel).removeClass('hide');
         }
     };
 
-    self.resetUploadForm = function () {
+    self._resetUploadForm = function () {
         var $uploadForm = $(self.uploadFormSelector);
         $uploadForm.find('.hqm-share-media').prop('checked', false);
         $uploadForm.find('.hqm-sharing').addClass('hide');
@@ -198,10 +198,10 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
                 multipleFiles: self.isMultiFileUpload
             });
 
-            self.uploader.on("fileselect", self.fileSelect);
-            self.uploader.on("uploadprogress", self.uploadProgress);
+            self.uploader.on("fileselect", self._fileSelect);
+            self.uploader.on("uploadprogress", self._uploadProgress);
             self.uploader.on("uploadcomplete", self.uploadComplete);
-            self.uploader.on("uploaderror", self.uploadError);
+            self.uploader.on("uploaderror", self._uploadError);
 
             self.uploader.render(self.selectFilesButtonContainer);
         });
@@ -223,24 +223,24 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
         self.filesInQueueUI = [];
         self.processingIdToFile = {};
         self.allowClose = true;
-        self.toggleUploadButton();
-        self.resetUploadForm();
+        self._toggleUploadButton();
+        self._resetUploadForm();
         if (!self.isMultiFileUpload) {
             $(self.queueSelector).empty();
         }
     };
 
-    self.clearUploaderData = function () {
+    self._clearUploaderData = function () {
         self.uploader.set('fileList', []);
     };
 
-    self.removeFileFromUploader = function (file) {
+    self._removeFileFromUploader = function (file) {
         var fileList = self.uploader.get('fileList');
         self.uploader.set('fileList', _.without(fileList, file));
         self.filesInQueueUI = _.without(self.filesInQueueUI, file);
     };
 
-    self.fileSelect = function (event) {
+    self._fileSelect = function (event) {
         /*
             After files have been selected by the select files function, do this.
          */
@@ -252,15 +252,15 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
             var queuedFile = event.fileList[f];
             if (self.filesInQueueUI.indexOf(queuedFile) < 0) {
                 self.filesInQueueUI.push(queuedFile);
-                $(self.queueSelector).append(self.processQueueTemplate(queuedFile));
-                var activeSelector = self.getActiveUploadSelectors(queuedFile);
-                $(activeSelector.cancel).click(self.cancelFileUpload(queuedFile));
+                $(self.queueSelector).append(self._processQueueTemplate(queuedFile));
+                var activeSelector = self._getActiveUploadSelectors(queuedFile);
+                $(activeSelector.cancel).click(self._cancelFileUpload(queuedFile));
                 if ($(activeSelector.remove)) {
-                    $(activeSelector.remove).click(self.removeFileFromQueue(queuedFile));
+                    $(activeSelector.remove).click(self._removeFileFromQueue(queuedFile));
                 }
             }
         }
-        self.toggleUploadButton();
+        self._toggleUploadButton();
     };
 
     self.startUpload = function (event) {
@@ -277,7 +277,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
             self.uploadParams.path = self.uploadParams.path.replace(/(\.[^/.]+)?$/, newExtension);
         }
         $(self.uploadButtonSelector).addClass('disabled').removeClass('btn-success');
-        self.startUploadUI();
+        self._startUploadUI();
         var postParams = _.clone(self.uploadParams);
         for (var key in self.uploadParams) {
             if (self.uploadParams.hasOwnProperty(key)
@@ -296,12 +296,12 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
         // With YUI 3.9 you can trigger downloads on a per file basis, but for now just keep the original behavior
         // of uploading the entire queue.
         self.uploader.uploadAll(self.uploadURL, postParams);
-        self.activateQueueUI();
+        self._activateQueueUI();
         event.preventDefault();
     };
 
-    self.uploadProgress = function (event) {
-        var curUpload = self.getActiveUploadSelectors(event.file);
+    self._uploadProgress = function (event) {
+        var curUpload = self._getActiveUploadSelectors(event.file);
         $(curUpload.progressBar).attr('style', 'width: ' + event.percentLoaded + '%;');
     };
 
@@ -309,22 +309,22 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
         throw new Error("Missing implementation for uploadComplete");
     };
 
-    self.uploadError = function (event) {
+    self._uploadError = function (event) {
         /*
             An error occurred while uploading the file.
          */
         self.allowClose = true;
         self.uploader.queue = null;
-        var curUpload = self.getActiveUploadSelectors(event.file);
+        var curUpload = self._getActiveUploadSelectors(event.file);
         $(curUpload.progressBarContainer).addClass('progress-danger');
         $(curUpload.progressBar).addClass('progress-bar-danger');
-        self.showErrors(event.file, ['Upload Failed: Issue communicating with server.  This usually means your Internet connection is not strong enough. Try again later.']);
+        self._showErrors(event.file, ['Upload Failed: Issue communicating with server.  This usually means your Internet connection is not strong enough. Try again later.']);
     };
 
-    self.showErrors = function (file, errors) {
-        var curUpload = self.getActiveUploadSelectors(file);
+    self._showErrors = function (file, errors) {
+        var curUpload = self._getActiveUploadSelectors(file);
         (errors.length > 0) ? $(curUpload.errorNotice).removeClass('hide') : $(curUpload.errorNotice).addClass('hide');
-        $(curUpload.status).append(self.processErrorsTemplate(errors));
+        $(curUpload.status).append(self._processErrorsTemplate(errors));
     };
 
 }
@@ -339,7 +339,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
     self.detailsTemplate = options.detailsTemplate;
     self.statusTemplate = options.statusTemplate;
 
-    self.processDetailsTemplate = function (images, audio, video, unknowns) {
+    self._processDetailsTemplate = function (images, audio, video, unknowns) {
         return _.template(self.detailsTemplate)({
             images: images,
             audio: audio,
@@ -348,7 +348,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
         });
     };
 
-    self.processStatusTemplate = function (images, audio, video) {
+    self._processStatusTemplate = function (images, audio, video) {
         var numMatches = images.length + audio.length + video.length;
         return _.template(self.statusTemplate)({
             num: numMatches
@@ -356,7 +356,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
     };
 
 
-    self.startUploadUI = function () {
+    self._startUploadUI = function () {
         // set the state of the uploader UI here when the upload starts
         if ($(self.confirmUploadModalSelector)) {
             $(self.confirmUploadModalSelector).modal('hide');
@@ -365,19 +365,19 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
 
     // uploader
     self.uploadComplete = function (event) {
-        var curUpload = self.getActiveUploadSelectors(event.file);
+        var curUpload = self._getActiveUploadSelectors(event.file);
         $(curUpload.progressBarContainer).removeClass('active');
         $(curUpload.cancel).addClass('hide');
-        self.removeFileFromUploader(event.file);
+        self._removeFileFromUploader(event.file);
         var $queuedItem = $(curUpload.selector);
         $queuedItem.remove();
         $queuedItem.insertAfter($(self.processingFilesListSelector).find('.hqm-list-notice'));
-        self.beginProcessing(event);
-        self.toggleUploadButton();
+        self._beginProcessing(event);
+        self._toggleUploadButton();
     };
 
     // processing flow
-    self.beginProcessing = function(event) {
+    self._beginProcessing = function(event) {
         /*
             The upload completed. Do this...
          */
@@ -385,15 +385,15 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
 
         var processing_id = response.processing_id;
         self.processingIdToFile[response.processing_id] = event.file;
-        var curUpload = self.getActiveUploadSelectors(event.file);
+        var curUpload = self._getActiveUploadSelectors(event.file);
         $(curUpload.progressBar).addClass('hide').attr('style', 'width: 0%;'); // reset progress bar for processing
         $(curUpload.progressBarContainer).addClass('progress-warning active');
         $(curUpload.progressBar).addClass('progress-bar-warning');
         $(curUpload.processingQueuedNotice).removeClass('hide');
-        self.pollProcessingQueue(processing_id)();
+        self._pollProcessingQueue(processing_id)();
     };
 
-    self.pollProcessingQueue = function (processing_id) {
+    self._pollProcessingQueue = function (processing_id) {
         return function _poll () {
             setTimeout(function () {
                 if (processing_id in self.processingIdToFile) {
@@ -404,8 +404,8 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
                             processing_id: processing_id
                         },
                         type: 'POST',
-                        success: self.processingProgress,
-                        error: self.processingError(processing_id),
+                        success: self._processingProgress,
+                        error: self._processingError(processing_id),
                         complete: _poll,
                         timeout: self.pollInterval
                     });
@@ -414,9 +414,9 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
         }
     };
 
-    self.processingProgress = function (data) {
+    self._processingProgress = function (data) {
         self.currentPollAttempts = 0;
-        var curUpload = self.getActiveUploadSelectors(self.processingIdToFile[data.processing_id]);
+        var curUpload = self._getActiveUploadSelectors(self.processingIdToFile[data.processing_id]);
         if (data.in_celery) {
             $(curUpload.processingQueuedNotice).addClass('hide');
             $(curUpload.processingNotice).removeClass('hide');
@@ -429,23 +429,23 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
             }
         }
         if (data.complete) {
-            self.processingComplete(data);
+            self._processingComplete(data);
         }
     };
 
-    self.processingComplete = function (data) {
+    self._processingComplete = function (data) {
         var processingFile = self.processingIdToFile[data.processing_id];
         delete self.processingIdToFile[data.processing_id];
-        var curUpload = self.getActiveUploadSelectors(processingFile);
-        self.stopProcessingFile(processingFile);
+        var curUpload = self._getActiveUploadSelectors(processingFile);
+        self._stopProcessingFile(processingFile);
         $(curUpload.progressBarContainer).addClass('progress-success')
         $(curUpload.progressBar).addClass('progress-bar-success');
 
-        self.showMatches(processingFile, data);
-        self.showErrors(processingFile, data.errors);
+        self._showMatches(processingFile, data);
+        self._showErrors(processingFile, data.errors);
     };
 
-    self.processingError = function (processing_id) {
+    self._processingError = function (processing_id) {
         return function (data, status) {
             if (self.pollInterval < self.maxPollInterval) {
                 // first try increasing their timeout, maybe the connection is poor
@@ -457,18 +457,18 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
             if (self.currentPollAttempts > self.maxPollAttempts) {
                 var processingFile = self.processingIdToFile[processing_id];
                 delete self.processingIdToFile[processing_id];
-                var curUpload = self.getActiveUploadSelectors(processingFile);
-                self.stopProcessingFile(processingFile);
+                var curUpload = self._getActiveUploadSelectors(processingFile);
+                self._stopProcessingFile(processingFile);
                 $(curUpload.progressBarContainer).addClass('progress-danger');
                 $(curUpload.progressBar).addClass('progress-bar-danger');
-                self.showErrors(processingFile, ['There was an issue communicating with the server at this time. ' +
+                self._showErrors(processingFile, ['There was an issue communicating with the server at this time. ' +
                     'The upload has failed.']);
             }
         }
     };
 
-    self.stopProcessingFile = function (file) {
-        var curUpload = self.getActiveUploadSelectors(file);
+    self._stopProcessingFile = function (file) {
+        var curUpload = self._getActiveUploadSelectors(file);
         if (self.isMultiFileUpload) {
             var $processingItem = $(curUpload.selector);
             $processingItem.remove();
@@ -482,16 +482,16 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
         $(curUpload.progressBar).removeClass('progress-bar-warning');
     };
 
-    self.showMatches = function (file, data) {
-        var curUpload = self.getActiveUploadSelectors(file);
+    self._showMatches = function (file, data) {
+        var curUpload = self._getActiveUploadSelectors(file);
         if (data.type === 'zip' && data.matched_files) {
             var images = data.matched_files.CommCareImage,
                 audio = data.matched_files.CommCareAudio,
                 video = data.matched_files.CommCareVideo,
                 unknowns = data.unmatched_files;
-            $(curUpload.status).append(self.processStatusTemplate(images, audio, video));
+            $(curUpload.status).append(self._processStatusTemplate(images, audio, video));
 
-            $(curUpload.details).html(self.processDetailsTemplate(images, audio, video, unknowns));
+            $(curUpload.details).html(self._processDetailsTemplate(images, audio, video, unknowns));
             $(curUpload.details).find('.match-info').popover({
                 html: true,
                 title: 'Click to open in new tab.',
@@ -514,7 +514,7 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
     self.currentReference = null;
     self.existingFileTemplate = options.existingFileTemplate;
 
-    self.processExistingFileTemplate = function (url) {
+    self._processExistingFileTemplate = function (url) {
         return _.template(self.existingFileTemplate)({
             url: url
         });
@@ -530,7 +530,7 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
 
         if (self.currentReference.getUrl() && self.currentReference.isMediaMatched()) {
             $existingFile.removeClass('hide');
-            $existingFile.find('.hqm-existing-controls').html(self.processExistingFileTemplate(self.currentReference.getUrl()));
+            $existingFile.find('.hqm-existing-controls').html(self._processExistingFileTemplate(self.currentReference.getUrl()));
         } else {
             $existingFile.addClass('hide');
             $existingFile.find('.hqm-existing-controls').empty();
@@ -542,7 +542,7 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
 
     self.uploadComplete = function (event) {
         self.allowClose = true;
-        var curUpload = self.getActiveUploadSelectors(event.file);
+        var curUpload = self._getActiveUploadSelectors(event.file);
         $(curUpload.cancel).addClass('hide');
         $(curUpload.progressBarContainer).removeClass('active').addClass('progress-success');
         $(curUpload.progressBar).addClass('progress-bar-success');
@@ -552,12 +552,12 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
         if (!response.errors.length) {
             self.updateUploadFormUI();
             $(self.fileUploadCompleteSelector).removeClass('hide');
-            self.removeFileFromUI(event.file);
+            self._removeFileFromUI(event.file);
             self.resetUploader();
         } else {
-            self.showErrors(event.file, response.errors);
+            self._showErrors(event.file, response.errors);
         }
-        self.clearUploaderData();
+        self._clearUploaderData();
     };
 
 }
