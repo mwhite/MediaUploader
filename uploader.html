@@ -18,17 +18,11 @@
       top: 15px;
       right: 15px;
     }
-    #select-file-section {
-      padding-top: 15px;
-    }
     .select-label, .current-label {
       text-align: right;
       font-size: 12px;
       font-weight: bold;
       padding-top: 7px;
-    }
-    .select-btn {
-      padding-left: 10px;
     }
     .select-file {
       display: inline-block;
@@ -39,30 +33,22 @@
       font-weight: normal;
       cursor: pointer;
     }
-    #media-data-section {
-      padding-left: 5px;
-    }
     .file-data,
     .ready-text {
       font-size: 12px;
-      border-radius: 3px;
-      margin-top: 3px;
     }
     .file-data {
-      display: inline-block;
       height: 40px;
-      margin-bottom: 3px;
+      line-height: 3;
+      margin: 6px 0;
       background-color: #a3d8a3;
       border: 1px solid #82c982;
+      border-radius: 3px;
       color: white;
-      padding-left: 3px;
-    }
-    .progress-bar {
-      width: 359px;
     }
     .ready-text {
       color: #82c982;
-      padding-left: 0;
+      margin-top: -18px;
     }
     .current-preview {
       padding-bottom: 20px;
@@ -71,12 +57,12 @@
       max-width: 150px;
       max-height: 150px;
     }
-    .btn-default {
+    .full-size-btn {
       color: #181715;
       background-color: #f2f2f1;
       border-color: #d6d6d4;
-  }
-    #js-current-btn {
+    }
+    .js-current-btn {
       line-height: 7;
     }
   </style>
@@ -103,9 +89,15 @@
           </div>
 
           <div class="modal-body">
-            <div id="select-file-section" class="row"></div>
-            <div id="selected-media-section" class="row col-sm-12"></div>
-            <div id="media-data-section" class="row col-sm-8 col-sm-offset-4"></div>
+            <div class="row">
+              <div id="select-file-section"></div>
+            </div>
+            <div class="row">
+              <div id="selected-media-section"></div>  
+            </div>
+            <div class="row">
+              <div id="media-data-section"></div>
+            </div>
           </div>
 
           <div class="modal-footer">
@@ -124,6 +116,7 @@
     <div class="select-label col-sm-4">
       Select new <%= filetype %>
     </div>
+    <!-- <div class="select-btn col-sm-4"> -->
     <div class="select-btn col-sm-4">
       <label for="js-file-upload" id="js-file-upload-label" class="select-file button btn-sm">
         Select File
@@ -131,31 +124,37 @@
       <input id="js-file-upload" type="file" accept="image/*" capture="camera" style="visibility:hidden;">
     </div>
   </script>
-  
-  <!-- create data, progress, ready text container -->
-  <script id="js-media-data-section" type="text/html">
-    <div id="js-file-data" class="file-data row col-sm-12">
-      <i class="fa fa-check"></i> <%= fileName %> [<%= fileSize %>] MB
-    </div>
-    <div id="js-file-progress" class="row">
-      <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="100">actual progress goes here
-      </div>
-    </div>
-    <div id="js-file-ready-text" class="ready-text row col-sm-12">
-      Ready to upload. Click <strong>Begin Upload</strong> to start.
-    </div>
-  </script>
 
   <!-- selection section container -->
   <script id="js-selected-media-section" type="text/html">
-    <div id="js-current-label" class="current-label col-sm-4">
+    <div class="current-label col-sm-4">
       Current <%= filetype %>
     </div>
-    <div id="js-current-preview" class="current-preview col-sm-4">
+    <div id="js-current-preview" class="current-preview col-sm-3">
       <img id="js-output-file" class="output-image"/>
     </div>
-    <div id="js-current-btn" class="col-sm-4">
-      <button id="js-full-image" class="btn btn-sm btn-default">View Full Size</button>
+    <div class="js-current-btn col-sm-5">
+      <button id="js-full-image" class="btn btn-sm btn-default full-size-btn">View Full Size</button>
+    </div>
+  </script>
+
+  <!-- create data, progress, ready text container -->
+  <script id="js-media-data-section" type="text/html">
+    <div id="js-file-data" class="col-sm-8 col-sm-offset-4">
+      <div class="file-data">
+        <i class="fa fa-check"></i> <%= fileName %> [<%= fileSize %>] MB
+      </div>
+    </div>
+    <div id="js-file-progress" class="col-sm-8 col-sm-offset-4">
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="100" style="width: 10%;">
+        </div>
+      </div>
+    </div>
+    <div id="js-file-ready-text" class="col-sm-8 col-sm-offset-4">
+      <div class="ready-text">
+        Ready to upload. Click <strong>Begin Upload</strong> to start.
+      </div>
     </div>
   </script>
 
