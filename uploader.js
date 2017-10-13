@@ -3,7 +3,7 @@
           _private = {};
       'use strict';
 
-      self.init = function (filetype) {
+      _private.init = function (filetype) {
         var mediaTypes = {
           'image': {
             'text': 'image',
@@ -42,6 +42,8 @@
           _private.showFullSize(image);
         });
       };
+
+      _private.init(opts.filetype);
 
       // public functions
       var createModalHeader = function(filetype) {
@@ -96,10 +98,9 @@
       _private.showFullSize = function(event) {
         var image = event.target.files[0];
         if (image) {
-          console.log(image);
           window.open('http://www.dogster.com/wp-content/uploads/2016/07/shutterstock_90574015-600x368.jpg');
         } else {
-          alert('no image');
+          console.log('no image'); // Left in because this code isn't finished yet
         }
       }
 
@@ -121,6 +122,7 @@
 
     $(function () {
       var mediaUploader = new MultimediaUploader({
+        filetype: "image",
         selectHeaderSelector: "#js-create-header",
         selectFileSelector: "#js-select-file",
         selectionSectionSelector: "#js-file-upload-label",
@@ -131,5 +133,5 @@
         progressBarSelector: "#js-file-progress",
         readyTextSelector: "#js-file-ready-text",
       });
-      mediaUploader.init('image');
+      // mediaUploader.init('image');
     })
