@@ -133,5 +133,4 @@
         progressBarSelector: "#js-file-progress",
         readyTextSelector: "#js-file-ready-text",
       });
-      // mediaUploader.init('image');
     })
