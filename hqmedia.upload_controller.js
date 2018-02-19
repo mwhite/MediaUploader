@@ -1,6 +1,6 @@
 var HQMediaUploaderTypes = {
     'bulk': HQMediaBulkUploadController,
-    'file': HQMediaFileUploadController
+    'file': HQMediaFileUploadController,
 };
 
 function BaseHQMediaUploadController (uploader_name, marker, options) {
@@ -74,8 +74,8 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
             completeNotice: selector + ' .hqm-upload-completed',
             errorNotice: selector + ' .hqm-error',
             status: selector + ' .hqm-status',
-            details: selector + ' .hqm-details'
-        }
+            details: selector + ' .hqm-details',
+        };
     };
 
     // templates
@@ -87,7 +87,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
         return _.template(self.queueTemplate)({
             unique_id: self.marker + file.get('id'),
             file_size: (file.get('size')/MEGABYTE).toFixed(3),
-            file_name: file.get('name')
+            file_name: file.get('name'),
         });
     };
 
@@ -95,7 +95,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
 
     self._processErrorsTemplate = function (errors) {
         return _.template(self.errorsTemplate)({
-            errors: errors
+            errors: errors,
         });
     };
 
@@ -113,7 +113,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
             $(activeSelector.remove).removeClass('hide');
             event.preventDefault();
             self.allowClose = true;
-        }
+        };
     };
 
     self._removeFileFromQueue = function (file) {
@@ -124,7 +124,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
             self._removeFileFromUploader(file);
             self._removeFileFromUI(file);
             event.preventDefault();
-        }
+        };
     };
 
 
@@ -195,7 +195,7 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
                 width: buttonRegion.width || '100px',
                 height: buttonRegion.height || '35px',
                 selectFilesButton: Y.one(self.selectFilesButton),
-                multipleFiles: self.isMultiFileUpload
+                multipleFiles: self.isMultiFileUpload,
             });
 
             self.uploader.on("fileselect", self._fileSelect);
@@ -344,14 +344,14 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
             images: images,
             audio: audio,
             video: video,
-            unknowns: unknowns
+            unknowns: unknowns,
         });
     };
 
     self._processStatusTemplate = function (images, audio, video) {
         var numMatches = images.length + audio.length + video.length;
         return _.template(self.statusTemplate)({
-            num: numMatches
+            num: numMatches,
         });
     };
 
@@ -401,17 +401,17 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
                         url: self.processingURL,
                         dataType: 'json',
                         data: {
-                            processing_id: processing_id
+                            processing_id: processing_id,
                         },
                         type: 'POST',
                         success: self._processingProgress,
                         error: self._processingError(processing_id),
                         complete: _poll,
-                        timeout: self.pollInterval
+                        timeout: self.pollInterval,
                     });
                 }
             }, self.pollInterval);
-        }
+        };
     };
 
     self._processingProgress = function (data) {
@@ -438,7 +438,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
         delete self.processingIdToFile[data.processing_id];
         var curUpload = self._getActiveUploadSelectors(processingFile);
         self._stopProcessingFile(processingFile);
-        $(curUpload.progressBarContainer).addClass('progress-success')
+        $(curUpload.progressBarContainer).addClass('progress-success');
         $(curUpload.progressBar).addClass('progress-bar-success');
 
         self._showMatches(processingFile, data);
@@ -464,7 +464,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
                 self._showErrors(processingFile, ['There was an issue communicating with the server at this time. ' +
                     'The upload has failed.']);
             }
-        }
+        };
     };
 
     self._stopProcessingFile = function (file) {
@@ -496,7 +496,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
                 html: true,
                 title: 'Click to open in new tab.',
                 trigger: 'hover',
-                placement: 'bottom'
+                placement: 'bottom',
             });
         }
     };
@@ -516,7 +516,7 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
 
     self._processExistingFileTemplate = function (url) {
         return _.template(self.existingFileTemplate)({
-            url: url
+            url: url,
         });
     };
 
@@ -536,7 +536,7 @@ function HQMediaFileUploadController (uploader_name, marker, options) {
             $existingFile.find('.hqm-existing-controls').empty();
         }
         $('.existing-media').tooltip({
-            placement: 'bottom'
+            placement: 'bottom',
         });
     };
 
