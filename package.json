@@ -1,0 +1,22 @@
+{
+  "name": "media-uploader",
+  "version": "1.0.0",
+  "description": "Multimedia uploader widget used by CommCareHQ",
+  "main": "hqmedia.upload_controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dimagi/MediaUploader.git"
+  },
+  "author": "Jenny Schweers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dimagi/MediaUploader/issues"
+  },
+  "homepage": "https://github.com/dimagi/MediaUploader#readme",
+  "dependencies": {
+    "node-static": "^0.7.10"
+  }
+}
