@@ -2,21 +2,21 @@
 
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
-        console.log("hhehehehehehehe")
+        
         define('hqmedia/MediaUploader/hqmedia.upload_controller', [
             'jquery',
             'underscore',
-            'bootstrap',
             'hqmedia/MediaUploader/yui-base',
             'hqmedia/MediaUploader/yui-uploader',
+            'bootstrap',
         ], factory);
     } else {
-        console.log("anadsnanananana")
-        root.HQMediaUploaderTypes = factory(jQuery, _);
+
+        root.HQMediaUploaderTypes = factory(jQuery, _, YUI);
     }
 
-})(this, function ($,_) {
-
+})(this, function ($,_, YUI) {
+    console.log(YUI)
     function BaseHQMediaUploadController(uploader_name, marker, options) {
         'use strict';
         var self = this;
