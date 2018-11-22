@@ -315,10 +315,17 @@ function BaseHQMediaUploadController (uploader_name, marker, options) {
          */
         self.allowClose = true;
         self.uploader.queue = null;
+        var response = JSON.parse(event.data);
+        var errors = [];
+        if (response && response.errors) {
+            errors = errors.concat(response.errors);
+        } else {
+            errors.push('Upload Failed: Issue communicating with server.  This usually means your Internet connection is not strong enough. Try again later.')
+        }
         var curUpload = self._getActiveUploadSelectors(event.file);
         $(curUpload.progressBarContainer).addClass('progress-danger');
         $(curUpload.progressBar).addClass('progress-bar-danger');
-        self._showErrors(event.file, ['Upload Failed: Issue communicating with server.  This usually means your Internet connection is not strong enough. Try again later.']);
+        self._showErrors(event.file, errors);
     };
 
     self._showErrors = function (file, errors) {
