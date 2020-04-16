@@ -4,7 +4,7 @@ by Biyeun Buczyk, extracted from CommCare HQ.
 
 YUI files built with http://yuilibrary.com/yui/configurator/
 
-See Vellum and CommCare HQ for usage examples.
+See [Vellum](https://github.com/dimagi/Vellum/) and [CommCare HQ](https://github.com/dimagi/commcare-hq/) for usage examples.
 
 ## Guess at original build procedure
 
