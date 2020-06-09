@@ -504,6 +504,7 @@ function HQMediaBulkUploadController (uploader_name, marker, options) {
                 title: 'Click to open in new tab.',
                 trigger: 'hover',
                 placement: 'bottom',
+                sanitize: false,
             });
         }
     };
